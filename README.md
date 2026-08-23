@@ -5,3 +5,4 @@ TaskMind é uma aplicação web desktop de organização pessoal e profissional,
 <img width="1920" height="1080" alt="print 2" src="https://github.com/user-attachments/assets/af6584ed-8625-4099-ba4d-79832823f0d4" />
 <img width="1920" height="1080" alt="dark mode" src="https://github.com/user-attachments/assets/4658e269-fcf0-449c-a815-cb3b069450de" />
 <img width="1920" height="1080" alt="tarefas" src="https://github.com/user-attachments/assets/d1c66179-745f-49ae-9f86-36b3ee7e97e5" />
+<img width="1920" height="1080" alt="concluidas" src="https://github.com/user-attachments/assets/4fad5f75-f46e-4084-a2c9-8f77f84a62e6" />
