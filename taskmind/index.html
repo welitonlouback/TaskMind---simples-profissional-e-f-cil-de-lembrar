@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>TaskMind</title>
+
+    <!-- EVITA PISCAR BRANCO -->
+  <script>
+    if (localStorage.getItem("tema") === "dark") {
+      document.documentElement.classList.add("dark");
+    }
+  </script>
+
+  <link rel="stylesheet" href="../css/style.css">
+
+  <!-- ATIVA DARK MODE NO TAILWIND -->
+  <script>
+    tailwind.config = {
+      darkMode: 'class'
+    }
+  </script>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+<body class="font-sans transition-colors duration-300"
+      style="background-color: var(--bg-main); color: var(--text-main);">          <!-- darkmode -->
+
+
+
+<div class="flex min-h-screen">
+
+  <!-- SIDEBAR -->
+  <aside class="w-64 p-6 flex flex-col justify-between transition-colors duration-300"
+        style="background-color: var(--bg-card); border-right: 1px solid var(--border-color);">    <!-- darkmode -->
+     <div>
+      <h1 class="text-xl font-bold mb-8">TaskMind</h1>
+
+      <button onclick="abrirModal()" 
+        class="w-full bg-blue-600 text-white py-2 rounded-lg mb-6 flex items-center justify-center gap-2">
+        <i data-lucide="plus"></i>
+        Nova Tarefa
+      </button>
+
+      <nav class="space-y-2">
+
+        <a id="linkDashboard" href="index.html"
+          class="flex items-center gap-3 px-4 py-2 rounded-lg
+          hover:bg-gray-100 dark:hover:bg-slate-700
+          hover:text-black dark:hover:text-white
+          transition-colors duration-200">
+          <i data-lucide="layout-index"></i>
+          Dashboard
+        </a>
+
+        <a id="linkTarefas" href="tarefas.html"
+          class="flex items-center gap-3 px-4 py-2 rounded-lg
+          hover:bg-gray-100 dark:hover:bg-slate-700
+          hover:text-black dark:hover:text-white
+          transition-colors duration-200">
+          <i data-lucide="check-square"></i>
+          Tarefas
+        </a>
+
+        <a id="linkConcluidas" href="concluidas.html"
+          class="flex items-center gap-3 px-4 py-2 rounded-lg
+          hover:bg-gray-100 dark:hover:bg-slate-700
+          hover:text-black dark:hover:text-white
+          transition-colors duration-200">
+          <i data-lucide="check-circle"></i>
+          Concluídas
+        </a>
+
+        <a id="linkCalendario" href="calendario.html"
+          class="flex items-center gap-3 px-4 py-2 rounded-lg
+          hover:bg-gray-100 dark:hover:bg-slate-700
+          hover:text-black dark:hover:text-white
+          transition-colors duration-200">
+          <i data-lucide="calendar"></i>
+          Calendário
+        </a>
+
+      </nav>
+    </div>
+
+    <div class="pt-6 border-t dark:border-slate-700">
+      <a href="#"
+        class="flex items-center gap-3 px-4 py-2 rounded-lg
+        hover:bg-gray-100 dark:hover:bg-slate-700
+        hover:text-black dark:hover:text-white
+        transition-colors duration-200">
+        <i data-lucide="settings"></i>
+        Configurações
+      </a>
+    </div>
+
+  </aside>
+
+  <!-- CONTEÚDO PRINCIPAL -->
+ <main class="flex-1 p-10">
+  <div class="max-w-7xl w-full">   <!-- Espaço direito -->
+
+  <!-- HEADER -->
+  <div class="flex justify-between items-center mb-8">
+    <div>
+      <h2 class="text-3xl font-bold">Visão Geral</h2>
+      <p id="dataAtual" class="text-gray-500"></p>
+    </div>
+
+
+<div class="flex items-center gap-4">
+
+  <i data-lucide="sun"
+   class="w-5 h-5 text-neutral-800 dark:text-neutral-300"></i>
+
+  <button id="themeToggle"
+    class="relative w-14 h-7 bg-slate-300 dark:bg-slate-600 rounded-full transition duration-300">
+
+    <span id="toggleCircle"
+      class="absolute left-1 top-1 w-5 h-5 bg-white rounded-full transition-transform duration-300">
+    </span>
+
+  </button>
+
+  <i data-lucide="moon"
+   class="w-5 h-5 text-neutral-800 dark:text-neutral-300"></i>
+
+</div>
+
+  </div>
+
+ <!-- CARDS -->
+<div class="grid grid-cols-4 gap-6 mb-8">
+
+  <!-- Total -->
+  <div class="p-6 rounded-2xl shadow-sm flex items-center gap-4 transition-colors duration-300"
+     style="background-color: var(--bg-card);">                        <!-- darkmode -->
+
+    <div class="bg-gray-100 dark:bg-slate-700 p-3 rounded-lg">
+      <i data-lucide="list-todo" class="text-gray-500 dark:text-slate-300"></i>
+    </div>
+    <div>
+      <p class="text-gray-500 dark:text-slate-400">Total</p>
+      <h3 id="totalCount" class="text-2xl font-bold">0</h3>
+    </div>
+  </div>
+
+  <!-- Concluídas -->
+  <div class="p-6 rounded-2xl shadow-sm flex items-center gap-4 transition-colors duration-300"
+     style="background-color: var(--bg-card);">                        <!-- darkmode -->
+    <div class="bg-green-100 dark:bg-green-900 p-3 rounded-lg">
+      <i data-lucide="check-circle" class="text-green-600"></i>
+    </div>
+    <div>
+      <p class="text-gray-500 dark:text-slate-400">Concluídas</p>
+      <h3 id="concluidasCount" class="text-2xl font-bold">0</h3>
+    </div>
+  </div>
+
+  <!-- Pendentes -->
+  <div class="p-6 rounded-2xl shadow-sm flex items-center gap-4 transition-colors duration-300"
+     style="background-color: var(--bg-card);">                        <!-- darkmode -->
+    <div class="bg-blue-100 dark:bg-blue-900 p-3 rounded-lg">
+      <i data-lucide="clock" class="text-blue-600"></i>
+    </div>
+    <div>
+      <p class="text-gray-500 dark:text-slate-400">Pendentes</p>
+      <h3 id="pendentesCount" class="text-2xl font-bold">0</h3>
+    </div>
+  </div>
+
+  <!-- Alta Prioridade -->
+  <div class="p-6 rounded-2xl shadow-sm flex items-center gap-4 transition-colors duration-300"
+     style="background-color: var(--bg-card);">                        <!-- darkmode -->
+    <div class="bg-red-100 dark:bg-red-900 p-3 rounded-lg">
+      <i data-lucide="alert-triangle" class="text-red-600"></i>
+    </div>
+    <div>
+      <p class="text-gray-500 dark:text-slate-400">Alta Prioridade</p>
+      <h3 id="altaCount" class="text-2xl font-bold">0</h3>
+    </div>
+  </div>
+
+</div>
+
+<!-- GRÁFICOS -->
+<div class="grid grid-cols-2 gap-6 mb-6">
+
+  <!-- STATUS -->
+ <div class="p-6 rounded-2xl shadow-sm flex items-center gap-4 transition-colors duration-300"
+     style="background-color: var(--bg-card);">                        <!-- darkmode -->
+    <h3 class="font-semibold mb-4">Status das Tarefas</h3>
+    <div class="h-56">
+      <canvas id="statusChart"></canvas>
+    </div>
+  </div>
+
+  <!-- PRIORIDADE -->
+  <div class="p-6 rounded-2xl shadow-sm flex items-center gap-4 transition-colors duration-300"
+     style="background-color: var(--bg-card);">                        <!-- darkmode -->
+    <h3 class="font-semibold mb-4">Distribuição por Prioridade</h3>
+    <div class="h-56">
+      <canvas id="priorityChart"></canvas>
+    </div>
+  </div>
+
+</div>
+
+<!-- PROGRESSO DIÁRIO -->
+<div class="p-6 rounded-2xl shadow-sm transition-colors duration-300"
+     style="background-color: var(--bg-card); display: block;">                     <!-- darkmode -->
+  <h3 class="font-semibold mb-4">Progresso por constância</h3>
+  <div class="h-64">
+    <canvas id="progressChart"></canvas>
+   </div>
+  </div>
+</div>
+
+<!-- MODAL -->
+<div id="modal" class="fixed inset-0 bg-black bg-opacity-40 hidden items-center justify-center">
+
+  <div class="bg-white dark:bg-[#111827] w-96 rounded-2xl shadow-xl overflow-hidden transition-colors duration-300">
+
+    <!-- HEADER -->
+    <div class="bg-blue-50 dark:bg-slate-700 px-6 py-4 flex justify-between items-center transition-colors duration-300">
+      <h2 class="text-lg font-semibold text-gray-800 dark:text-slate-100">
+        Nova Tarefa
+      </h2>
+      <button onclick="fecharModal()" class="text-gray-400 hover:text-gray-700 dark:hover:text-white text-lg">
+        ✕
+      </button>
+    </div>
+
+    <!-- BODY -->
+    <div class="p-6">
+
+      <label class="text-sm font-medium text-gray-600 dark:text-slate-300 block mb-1">
+        Título
+      </label>
+      <input id="tituloInput" type="text"
+        placeholder="O que precisa ser feito?"
+        class="w-full border dark:border-slate-600 bg-white dark:bg-slate-700 rounded-lg px-4 py-2 mb-4 focus:outline-none focus:ring-2 focus:ring-blue-400">
+
+      <label class="text-sm font-medium text-gray-600 dark:text-slate-300 block mb-1">
+        Horário
+      </label>
+      <input id="horarioInput" type="time"
+        class="w-full border dark:border-slate-600 bg-white dark:bg-slate-700 rounded-lg px-4 py-2 mb-4 focus:outline-none focus:ring-2 focus:ring-blue-400">
+
+      <label class="text-sm font-medium text-gray-600 dark:text-slate-300 block mb-1">
+        Prioridade
+      </label>
+      <select id="prioridadeInput"
+        class="w-full border dark:border-slate-600 bg-white dark:bg-slate-700 rounded-lg px-4 py-2 mb-4 focus:outline-none focus:ring-2 focus:ring-blue-400">
+        <option value="baixa">Baixa</option>
+        <option value="media">Média</option>
+        <option value="alta">Alta</option>
+      </select>
+
+      <label class="text-sm font-medium text-gray-600 dark:text-slate-300 block mb-2">
+        Repetir nos dias
+      </label>
+
+      <div class="flex gap-2 mb-6">
+        <button type="button" onclick="toggleDia(0, this)" class="dia-btn">D</button>
+        <button type="button" onclick="toggleDia(1, this)" class="dia-btn">S</button>
+        <button type="button" onclick="toggleDia(2, this)" class="dia-btn">T</button>
+        <button type="button" onclick="toggleDia(3, this)" class="dia-btn">Q</button>
+        <button type="button" onclick="toggleDia(4, this)" class="dia-btn">Q</button>
+        <button type="button" onclick="toggleDia(5, this)" class="dia-btn">S</button>
+        <button type="button" onclick="toggleDia(6, this)" class="dia-btn">S</button>
+      </div>
+
+      <div class="flex justify-between gap-3">
+        <button onclick="adicionarTarefaHoje()" 
+          class="bg-gray-200 dark:bg-slate-600 text-gray-800 dark:text-white px-4 py-2 rounded-lg hover:bg-gray-300 dark:hover:bg-slate-500 transition">
+          Criar só hoje
+        </button>
+
+        <button onclick="agendarNoMes()" 
+          class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
+          Criar para selecionados até o fim do Mês
+        </button>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+<script src="../js/app.js"></script>
+
+</body>
+</html>

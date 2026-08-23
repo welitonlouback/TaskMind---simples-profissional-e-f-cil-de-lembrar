@@ -1,0 +1,85 @@
+body {
+  transition: all 0.2s ease-in-out;
+}
+
+button {
+  transition: 0.2s ease;
+}
+
+button:hover {
+  transform: translateY(-1px);
+}
+
+#modal {
+  backdrop-filter: blur(3px);
+}
+
+.dia-btn {
+  padding: 6px 12px;
+  border-radius: 8px;
+  background: #f1f5f9;
+  color: #1e293b;
+  border: none;
+  cursor: pointer;
+  font-weight: 500;
+  transition: 0.2s;
+}
+
+/* DARK normal */
+html.dark .dia-btn {
+  background: #334155;
+  color: #f1f5f9;
+}
+
+/* ATIVO (vale para light e dark) */
+.dia-btn.ativo {
+  background: #2563eb !important;
+  color: white !important;
+}
+
+
+.dia-btn.ativo {
+  background: #2563eb;
+  color: white;
+}
+
+html.dark body {
+  background-color: #0f172a; /* slate-900 */
+  color: #f1f5f9;
+}
+
+html.dark .bg-white {
+  background-color: #1e293b !important; /* slate-800 */
+}
+
+html.dark .border-r {
+  border-color: #334155 !important;
+}
+
+/* Corrige ícone do input time no dark */
+html.dark input[type="time"]::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+}
+:root {
+  --bg-main: #f8fafc;
+  --bg-card: #ffffff;
+  --border-color: #e5e7eb;
+  --text-main: #0f172a;
+}
+
+.dark {
+  --bg-main: #0f1115;     /* fundo ChatGPT */
+  --bg-card: #16181d;     /* cards ChatGPT */
+  --border-color: #22252b;
+  --text-main: #e5e7eb;
+}
+
+
+.dark {
+  --bg-main: #0d0d0f;
+  --bg-card: #1a1a1d;
+}
+
+.dark .shadow-sm {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+}
